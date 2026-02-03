@@ -1,0 +1,128 @@
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.stat-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card.primary {
+  background: linear-gradient(135deg, #082421 0%, #064e3b 100%);
+  color: #ffffff;
+}
+
+.stat-card.secondary {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: #1f2937;
+}
+
+.stat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.stat-title {
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.stat-card.primary .stat-title {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.stat-card.secondary .stat-title {
+  color: #6b7280;
+}
+
+.stat-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.stat-card.secondary .stat-icon {
+  background-color: #f3f4f6;
+}
+
+.stat-icon img {
+  width: 16px;
+  height: 16px;
+}
+
+.stat-card.primary .stat-icon img {
+  filter: brightness(0) invert(1);
+}
+
+.stat-card.secondary .stat-icon img {
+  opacity: 0.6;
+}
+
+.stat-value {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.stat-card.primary .stat-value {
+  color: #ffffff;
+}
+
+.stat-card.secondary .stat-value {
+  color: #1f2937;
+}
+
+.stat-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.stat-card.primary .stat-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.stat-card.secondary .stat-subtitle {
+  color: #6b7280;
+}
+
+.trend-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.stat-card.primary .trend-icon {
+  filter: brightness(0) invert(1);
+}
+
+.stat-card.secondary .trend-icon {
+  opacity: 0.6;
+}
+
+@media (max-width: 1200px) {
+  .stats-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-cards {
+    grid-template-columns: 1fr;
+  }
+}

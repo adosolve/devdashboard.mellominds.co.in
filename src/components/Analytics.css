@@ -1,0 +1,14 @@
+.analytics-page {
+  padding: 24px;
+  background-color: #ffffff;
+  font-family: 'Urbanist', sans-serif;
+  overflow-y: auto;
+  height: 100%;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .analytics-page {
+    padding: 16px;
+  }
+}
