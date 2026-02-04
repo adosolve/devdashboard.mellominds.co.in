@@ -51,7 +51,7 @@
 .search-input:focus {
   outline: none;
   border-color: #082421;
-  box-shadow: 0 0 0 3px rgba(8, 36, 33, 0.1);
+  
 }
 
 .search-input::placeholder {
@@ -112,7 +112,7 @@
   border: 1px solid #e5e7eb;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  
 }
 
 .table-header {
@@ -314,7 +314,7 @@
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  
   z-index: 100;
   margin-top: 4px;
   min-width: 180px;
@@ -568,7 +568,7 @@
 .date-filter-select:focus {
   outline: none;
   border-color: #082421;
-  box-shadow: 0 0 0 3px rgba(8, 36, 33, 0.1);
+  
 }
 
 .date-filter-select:hover {
@@ -615,7 +615,7 @@
 .duration-filter-select:focus {
   outline: none;
   border-color: #082421;
-  box-shadow: 0 0 0 3px rgba(8, 36, 33, 0.1);
+  
 }
 
 .duration-filter-select:hover {
@@ -641,7 +641,7 @@
   border-radius: 16px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
   overflow: hidden;
 }
 
@@ -713,7 +713,7 @@
 .date-input:focus {
   outline: none;
   border-color: #082421;
-  box-shadow: 0 0 0 3px rgba(8, 36, 33, 0.1);
+  
 }
 
 .date-input:hover {

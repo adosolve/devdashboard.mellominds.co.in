@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import DateFilter from './DateFilter';
 import EditProfileModal from './EditProfileModal';
@@ -25,7 +24,6 @@ const Header: React.FC<HeaderProps> = ({
   const [showNotifications, setShowNotifications] = useState(false);
   const [unreadNotificationCount, setUnreadNotificationCount] = useState(5); // Mock unread count
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
   const { logout } = useAuth();
 
   // Close dropdown when clicking outside
@@ -69,7 +67,6 @@ const Header: React.FC<HeaderProps> = ({
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
     setShowProfileDropdown(false);
   };
 

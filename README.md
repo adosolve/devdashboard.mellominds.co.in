@@ -62,7 +62,7 @@ npm start
 ```
 src/
 ├── components/
-│   ├── Dashboard.tsx          # Main dashboard container
+│   ├── Dashboard.tsx         # Main dashboard container
 │   ├── Sidebar.tsx           # Left navigation sidebar
 │   ├── Header.tsx            # Top header with search and user profile
 │   ├── MainContent.tsx       # Main content area container
@@ -73,7 +73,9 @@ src/
 │   ├── TeamCollaboration.tsx # Team member list
 │   ├── ProjectProgress.tsx   # Circular progress chart
 │   └── TimeTracker.tsx       # Time tracking widget
-├── App.tsx                   # Root application component
+├── contexts/
+│   └── AuthContext.tsx       # Authentication context and state management
+├── App.tsx                   # Root application component with routing
 ├── index.tsx                 # Application entry point
 ├── index.css                 # Global styles with Urbanist font
 └── react-app-env.d.ts        # TypeScript declarations

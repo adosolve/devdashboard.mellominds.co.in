@@ -1,8 +1,14 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
+interface User {
+  name: string;
+  email: string;
+  avatar: string;
+}
+
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
+  user: User | null;
   logout: () => void;
 }
 
@@ -21,30 +27,22 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const login = async (email: string, password: string): Promise<boolean> => {
-    // Simulate API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // For demo purposes, accept any non-empty email and password
-        if (email.trim() && password.trim()) {
-          setIsAuthenticated(true);
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      }, 1500);
-    });
-  };
+  // Set user as always authenticated
+  const [isAuthenticated] = useState(true);
+  const [user] = useState<User>({
+    name: 'John Doe',
+    email: 'john.doe@mellominds.com',
+    avatar: '/Light-Icon/Iconly/Light-Outline/Profile.svg'
+  });
 
   const logout = () => {
-    setIsAuthenticated(false);
+    // No logout functionality needed since we removed login
+    console.log('Logout functionality removed');
   };
 
   const value = {
     isAuthenticated,
-    login,
+    user,
     logout
   };
 

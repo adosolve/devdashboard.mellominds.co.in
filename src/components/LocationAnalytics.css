@@ -2,7 +2,7 @@
   background: #ffffff;
   border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
   border: 1px solid #e5e7eb;
   width: 100%;
   max-width: none;
@@ -54,7 +54,7 @@
 .filter-select:focus {
   outline: none;
   border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+  
 }
 
 .filter-select-button {
@@ -83,7 +83,7 @@
 
 .filter-select-button:focus {
   border-color: #082421;
-  box-shadow: 0 0 0 3px rgba(8, 36, 33, 0.1);
+  
 }
 
 .filter-content {
@@ -122,7 +122,7 @@
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  
   z-index: 100;
   margin-top: 8px;
   min-width: 200px;
@@ -191,7 +191,7 @@
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  
   z-index: 100;
   margin-top: 8px;
   min-width: 320px;
@@ -556,7 +556,7 @@
 
 .summary-card:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  
 }
 
 .card-icon {

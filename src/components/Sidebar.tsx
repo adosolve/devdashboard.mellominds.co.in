@@ -53,24 +53,9 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPage = 'Dashboard', onPageChan
             </div>
           </nav>
         </div>
-
-        <div className="menu-section">
-          <div className="menu-label">GENERAL</div>
-          <nav className="menu-nav">
-            <div className="menu-item">
-              <img src="/Light-Icon/Iconly/Light-Outline/Logout.svg" alt="Logout" className="menu-icon" />
-              <span>Logout</span>
-            </div>
-          </nav>
-        </div>
       </div>
 
-      <div className="demo-mode-section">
-        <button className="demo-mode-btn">
-          <img src="/Light-Icon/Iconly/Light-Outline/Play.svg" alt="Demo" className="demo-icon" />
-          <span>Demo Mode</span>
-        </button>
-      </div>
+
     </div>
   );
 };

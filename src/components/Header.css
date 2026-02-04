@@ -134,7 +134,6 @@
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   margin-top: 8px;
   min-width: 180px;
@@ -206,6 +205,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-family: 'Urbanist', sans-serif;
 }
