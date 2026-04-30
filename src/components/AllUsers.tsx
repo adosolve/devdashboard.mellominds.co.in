@@ -12,161 +12,13 @@ interface User {
   joinDate: string;
 }
 
-// Mock user data - moved outside component to prevent re-renders
-const mockUsers: User[] = [
-  {
-    id: 1,
-    name: 'John Doe',
-    email: 'john.doe@email.com',
-    phone: '+1 234-567-8901',
-    city: 'New York',
-    planName: 'Premium',
-    status: 'Active',
-    joinDate: '2024-01-15'
-  },
-  {
-    id: 2,
-    name: 'Sarah Wilson',
-    email: 'sarah.wilson@email.com',
-    phone: '+1 234-567-8902',
-    city: 'Los Angeles',
-    planName: 'Free',
-    status: 'Active',
-    joinDate: '2024-01-20'
-  },
-  {
-    id: 3,
-    name: 'Michael Brown',
-    email: 'michael.brown@email.com',
-    phone: '+1 234-567-8903',
-    city: 'Chicago',
-    planName: 'Basic',
-    status: 'Inactive',
-    joinDate: '2024-01-10'
-  },
-  {
-    id: 4,
-    name: 'Emma Davis',
-    email: 'emma.davis@email.com',
-    phone: '+1 234-567-8904',
-    city: 'Houston',
-    planName: 'Premium',
-    status: 'Active',
-    joinDate: '2024-02-01'
-  },
-  {
-    id: 5,
-    name: 'Alex Johnson',
-    email: 'alex.johnson@email.com',
-    phone: '+1 234-567-8905',
-    city: 'Phoenix',
-    planName: 'Free',
-    status: 'Pending',
-    joinDate: '2024-02-05'
-  },
-  {
-    id: 6,
-    name: 'Lisa Chen',
-    email: 'lisa.chen@email.com',
-    phone: '+1 234-567-8906',
-    city: 'San Francisco',
-    planName: 'Premium',
-    status: 'Active',
-    joinDate: '2024-01-25'
-  },
-  {
-    id: 7,
-    name: 'David Kim',
-    email: 'david.kim@email.com',
-    phone: '+1 234-567-8907',
-    city: 'Seattle',
-    planName: 'Basic',
-    status: 'Active',
-    joinDate: '2024-01-30'
-  },
-  {
-    id: 8,
-    name: 'Jennifer Lopez',
-    email: 'jennifer.lopez@email.com',
-    phone: '+1 234-567-8908',
-    city: 'Miami',
-    planName: 'Free',
-    status: 'Inactive',
-    joinDate: '2024-01-12'
-  },
-  {
-    id: 9,
-    name: 'Robert Taylor',
-    email: 'robert.taylor@email.com',
-    phone: '+1 234-567-8909',
-    city: 'Denver',
-    planName: 'Premium',
-    status: 'Active',
-    joinDate: '2024-02-10'
-  },
-  {
-    id: 10,
-    name: 'Amanda White',
-    email: 'amanda.white@email.com',
-    phone: '+1 234-567-8910',
-    city: 'Boston',
-    planName: 'Basic',
-    status: 'Pending',
-    joinDate: '2024-02-08'
-  },
-  {
-    id: 11,
-    name: 'James Wilson',
-    email: 'james.wilson@email.com',
-    phone: '+1 234-567-8911',
-    city: 'Atlanta',
-    planName: 'Free',
-    status: 'Active',
-    joinDate: '2024-01-18'
-  },
-  {
-    id: 12,
-    name: 'Maria Garcia',
-    email: 'maria.garcia@email.com',
-    phone: '+1 234-567-8912',
-    city: 'Dallas',
-    planName: 'Premium',
-    status: 'Active',
-    joinDate: '2024-01-22'
-  },
-  {
-    id: 13,
-    name: 'Kevin Anderson',
-    email: 'kevin.anderson@email.com',
-    phone: '+1 234-567-8913',
-    city: 'Portland',
-    planName: 'Basic',
-    status: 'Inactive',
-    joinDate: '2024-01-05'
-  },
-  {
-    id: 14,
-    name: 'Rachel Green',
-    email: 'rachel.green@email.com',
-    phone: '+1 234-567-8914',
-    city: 'Las Vegas',
-    planName: 'Free',
-    status: 'Active',
-    joinDate: '2024-02-03'
-  },
-  {
-    id: 15,
-    name: 'Thomas Moore',
-    email: 'thomas.moore@email.com',
-    phone: '+1 234-567-8915',
-    city: 'Nashville',
-    planName: 'Premium',
-    status: 'Pending',
-    joinDate: '2024-02-12'
-  }
-];
+interface AllUsersProps {
+  onUserSelect?: (user: User) => void;
+  refreshKey?: number;
+}
 
-const AllUsers: React.FC = () => {
+// API Users will be loaded into state
+const AllUsers: React.FC<AllUsersProps> = ({ onUserSelect, refreshKey }) => {
   const [activeTab, setActiveTab] = useState('All Users');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -176,14 +28,29 @@ const AllUsers: React.FC = () => {
   const [customEndDate, setCustomEndDate] = useState('');
   const [tempStartDate, setTempStartDate] = useState('');
   const [tempEndDate, setTempEndDate] = useState('');
+  const [users, setUsers] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const usersPerPage = 10;
 
+  React.useEffect(() => {
+    fetch('http://localhost:5000/api/users')
+      .then(res => res.json())
+      .then(data => {
+        setUsers(data);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch users:', err);
+        setIsLoading(false);
+      });
+  }, [refreshKey]);
+
   const tabs = [
-    { id: 'All Users', label: 'All Users', count: mockUsers.length },
-    { id: 'Free Tier', label: 'Free Tier', count: mockUsers.filter(u => u.planName === 'Free').length },
-    { id: 'Paid Users', label: 'Paid Users', count: mockUsers.filter(u => u.planName !== 'Free').length },
-    { id: 'Active Users', label: 'Active Users', count: mockUsers.filter(u => u.status === 'Active').length },
-    { id: 'Inactive Users', label: 'Inactive Users', count: mockUsers.filter(u => u.status === 'Inactive').length }
+    { id: 'All Users', label: 'All Users', count: users.length },
+    { id: 'Free Tier', label: 'Free Tier', count: users.filter(u => u.planName.toLowerCase() === 'free').length },
+    { id: 'Paid Users', label: 'Paid Users', count: users.filter(u => u.planName.toLowerCase() !== 'free').length },
+    { id: 'Active Users', label: 'Active Users', count: users.filter(u => u.status === 'Active').length },
+    { id: 'Inactive Users', label: 'Inactive Users', count: users.filter(u => u.status === 'Inactive').length }
   ];
 
   const dateFilterOptions = [
@@ -197,13 +64,13 @@ const AllUsers: React.FC = () => {
   ];
 
   // Helper function to filter by date
-  const filterByDate = useCallback((users: User[], filter: string) => {
-    if (filter === 'All Time') return users;
+  const filterByDate = useCallback((usersList: User[], filter: string) => {
+    if (filter === 'All Time') return usersList;
     
     if (filter === 'Custom Date') {
-      if (!customStartDate && !customEndDate) return users;
+      if (!customStartDate && !customEndDate) return usersList;
       
-      return users.filter(user => {
+      return usersList.filter(user => {
         const userDate = new Date(user.joinDate);
         const startDate = customStartDate ? new Date(customStartDate) : new Date('1900-01-01');
         const endDate = customEndDate ? new Date(customEndDate) : new Date();
@@ -232,15 +99,15 @@ const AllUsers: React.FC = () => {
         filterDate.setMonth(0, 1); // January 1st of current year
         break;
       default:
-        return users;
+        return usersList;
     }
     
-    return users.filter(user => new Date(user.joinDate) >= filterDate);
+    return usersList.filter(user => new Date(user.joinDate) >= filterDate);
   }, [customStartDate, customEndDate]);
 
   // Filter users based on active tab and search term
   const filteredUsers = useMemo(() => {
-    let filtered = mockUsers;
+    let filtered = users;
 
     // Filter by date first
     filtered = filterByDate(filtered, dateFilter);
@@ -248,10 +115,10 @@ const AllUsers: React.FC = () => {
     // Filter by tab
     switch (activeTab) {
       case 'Free Tier':
-        filtered = filtered.filter(user => user.planName === 'Free');
+        filtered = filtered.filter(user => user.planName.toLowerCase() === 'free');
         break;
       case 'Paid Users':
-        filtered = filtered.filter(user => user.planName !== 'Free');
+        filtered = filtered.filter(user => user.planName.toLowerCase() !== 'free');
         break;
       case 'Active Users':
         filtered = filtered.filter(user => user.status === 'Active');
@@ -274,7 +141,7 @@ const AllUsers: React.FC = () => {
     }
 
     return filtered;
-  }, [activeTab, searchTerm, dateFilter, filterByDate]);
+  }, [activeTab, searchTerm, dateFilter, filterByDate, users]);
 
   // Pagination
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
@@ -292,7 +159,12 @@ const AllUsers: React.FC = () => {
     // Handle different actions here
     switch (action) {
       case 'view':
-        alert(`Viewing details for ${userName}`);
+        if (onUserSelect) {
+          const user = users.find(u => u.id === userId);
+          if (user) onUserSelect(user);
+        } else {
+          alert(`Viewing details for ${userName}`);
+        }
         break;
       case 'edit':
         alert(`Editing ${userName}`);
@@ -303,7 +175,32 @@ const AllUsers: React.FC = () => {
         }
         break;
       case 'suspend':
-        alert(`Suspended ${userName}`);
+        if (window.confirm(`Are you sure you want to suspend ${userName}'s account?`)) {
+          const userToSuspend = users.find(u => u.id === userId);
+          if (userToSuspend) {
+            const suspendUser = async () => {
+              try {
+                const suspendedData = { ...userToSuspend, status: 'Inactive' };
+                const response = await fetch(`http://localhost:5000/api/users/${userId}`, {
+                  method: 'PUT',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(suspendedData)
+                });
+                if (response.ok) {
+                  const updatedUser = await response.json();
+                  setUsers(prev => prev.map(u => u.id === userId ? updatedUser : u));
+                  alert(`${userName}'s account has been suspended.`);
+                } else {
+                  alert('Failed to suspend user.');
+                }
+              } catch (error) {
+                console.error(error);
+                alert('Error suspending user.');
+              }
+            };
+            suspendUser();
+          }
+        }
         break;
       default:
         break;
@@ -363,12 +260,12 @@ const AllUsers: React.FC = () => {
   };
 
   const getPlanBadgeClass = (planName: string) => {
-    switch (planName) {
-      case 'Premium':
+    switch (planName.toLowerCase()) {
+      case 'premium':
         return 'plan-premium';
-      case 'Basic':
+      case 'basic':
         return 'plan-basic';
-      case 'Free':
+      case 'free':
         return 'plan-free';
       default:
         return '';
@@ -556,13 +453,25 @@ const AllUsers: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {currentUsers.length > 0 ? (
+              {isLoading ? (
+                <tr>
+                  <td colSpan={7} style={{ textAlign: 'center', padding: '2rem' }}>
+                    Loading users...
+                  </td>
+                </tr>
+              ) : currentUsers.length > 0 ? (
                 currentUsers.map((user) => (
                   <tr key={user.id}>
                     <td>
                       <div className="user-info">
                         <div className="user-details">
-                          <div className="user-name">{user.name}</div>
+                          <div 
+                            className="user-name clickable-user" 
+                            onClick={() => onUserSelect && onUserSelect(user)}
+                            style={{ cursor: 'pointer' }}
+                          >
+                            {user.name}
+                          </div>
                         </div>
                       </div>
                     </td>
@@ -580,7 +489,7 @@ const AllUsers: React.FC = () => {
                     </td>
                     <td>
                       <span className={`plan-badge ${getPlanBadgeClass(user.planName)}`}>
-                        {user.planName}
+                        {user.planName.toLowerCase() === 'free' ? 'Free Tier' : user.planName}
                       </span>
                     </td>
                     <td>

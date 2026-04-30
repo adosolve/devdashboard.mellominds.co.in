@@ -4,11 +4,16 @@ import RecentUsersTable from './RecentUsersTable';
 import RevenueAnalytics from './RevenueAnalytics';
 import './MainContent.css';
 
-const MainContent: React.FC = () => {
+interface MainContentProps {
+  onUserSelect: (user: any) => void;
+  refreshKey?: number;
+}
+
+const MainContent: React.FC<MainContentProps> = ({ onUserSelect, refreshKey }) => {
   return (
     <main className="main-content">
       <AnalyticsCards />
-      <RecentUsersTable />
+      <RecentUsersTable onUserSelect={onUserSelect} refreshKey={refreshKey} />
       <RevenueAnalytics />
     </main>
   );

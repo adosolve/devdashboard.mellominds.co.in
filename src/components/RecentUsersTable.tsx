@@ -11,54 +11,32 @@ interface UserData {
   joiningDate: string;
 }
 
-const RecentUsersTable: React.FC = () => {
-  const users: UserData[] = [
-    {
-      id: 1,
-      name: "Alexandra Deff",
-      planName: "Premium Plan",
-      email: "alex.deff@email.com",
-      phone: "+1 (555) 123-4567",
-      status: "Active",
-      joiningDate: "Dec 15, 2024"
-    },
-    {
-      id: 2,
-      name: "Edwin Adenike",
-      planName: "Basic Plan",
-      email: "edwin.a@email.com",
-      phone: "+1 (555) 234-5678",
-      status: "Active",
-      joiningDate: "Nov 28, 2024"
-    },
-    {
-      id: 3,
-      name: "Isaac Oluwatemiloun",
-      planName: "Pro Plan",
-      email: "isaac.o@email.com",
-      phone: "+1 (555) 345-6789",
-      status: "Pending",
-      joiningDate: "Dec 20, 2024"
-    },
-    {
-      id: 4,
-      name: "David Oshodi",
-      planName: "Premium Plan",
-      email: "david.oshodi@email.com",
-      phone: "+1 (555) 456-7890",
-      status: "Inactive",
-      joiningDate: "Oct 10, 2024"
-    },
-    {
-      id: 5,
-      name: "Sarah Johnson",
-      planName: "Free Plan",
-      email: "sarah.j@email.com",
-      phone: "+1 (555) 567-8901",
-      status: "Active",
-      joiningDate: "Jan 05, 2025"
-    }
-  ];
+interface RecentUsersTableProps {
+  onUserSelect: (user: UserData) => void;
+  refreshKey?: number;
+}
+
+const RecentUsersTable: React.FC<RecentUsersTableProps> = ({ onUserSelect, refreshKey }) => {
+  const [users, setUsers] = React.useState<UserData[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    fetch('http://localhost:5000/api/users')
+      .then(res => res.json())
+      .then(data => {
+        // Map backend joinDate to joiningDate and format it
+        const recentUsers = data.slice(-5).map((u: any) => ({
+          ...u,
+          joiningDate: new Date(u.joinDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        }));
+        setUsers(recentUsers);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch recent users:', err);
+        setIsLoading(false);
+      });
+  }, [refreshKey]);
 
   return (
     <div className="recent-users-table">
@@ -79,15 +57,28 @@ const RecentUsersTable: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
+            {isLoading ? (
+              <tr>
+                <td colSpan={5} style={{ textAlign: 'center', padding: '1rem' }}>
+                  Loading recent users...
+                </td>
+              </tr>
+            ) : users.length > 0 ? (
+              users.map((user) => (
               <tr key={user.id}>
                 <td>
-                  <div className="user-cell">
+                  <div 
+                    className="user-cell clickable-user"
+                    onClick={() => onUserSelect(user)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <span className="user-name">{user.name}</span>
                   </div>
                 </td>
                 <td>
-                  <span className="plan-name">{user.planName}</span>
+                  <span className="plan-name">
+                    {user.planName.toLowerCase() === 'free' ? 'Free Tier' : user.planName}
+                  </span>
                 </td>
                 <td>
                   <div className="contact-info">
@@ -104,7 +95,14 @@ const RecentUsersTable: React.FC = () => {
                   <span className="joining-date">{user.joiningDate}</span>
                 </td>
               </tr>
-            ))}
+            ))
+            ) : (
+              <tr>
+                <td colSpan={5} style={{ textAlign: 'center', padding: '1rem' }}>
+                  No users found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
