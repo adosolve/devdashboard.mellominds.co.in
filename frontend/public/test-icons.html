@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Test</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .test-item { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+        img { max-width: 100px; max-height: 100px; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Icon Loading Test</h1>
+    
+    <div class="test-item">
+        <h3>Logo:</h3>
+        <img src="/mellominds-logo.svg" alt="Logo" onerror="this.parentElement.innerHTML+='<span class=error>❌ FAILED TO LOAD</span>'" onload="this.parentElement.innerHTML+='<span class=success>✅ LOADED</span>'">
+    </div>
+    
+    <div class="test-item">
+        <h3>Favicon:</h3>
+        <img src="/favicon.svg" alt="Favicon" onerror="this.parentElement.innerHTML+='<span class=error>❌ FAILED TO LOAD</span>'" onload="this.parentElement.innerHTML+='<span class=success>✅ LOADED</span>'">
+    </div>
+    
+    <div class="test-item">
+        <h3>Category Icon:</h3>
+        <img src="/Light-Icon/Iconly/Light-Outline/Category.svg" alt="Category" onerror="this.parentElement.innerHTML+='<span class=error>❌ FAILED TO LOAD</span>'" onload="this.parentElement.innerHTML+='<span class=success>✅ LOADED</span>'">
+    </div>
+    
+    <div class="test-item">
+        <h3>Profile Icon:</h3>
+        <img src="/Light-Icon/Iconly/Light-Outline/Profile.svg" alt="Profile" onerror="this.parentElement.innerHTML+='<span class=error>❌ FAILED TO LOAD</span>'" onload="this.parentElement.innerHTML+='<span class=success>✅ LOADED</span>'">
+    </div>
+    
+    <div class="test-item">
+        <h3>Chart Icon:</h3>
+        <img src="/Light-Icon/Iconly/Light-Outline/Chart.svg" alt="Chart" onerror="this.parentElement.innerHTML+='<span class=error>❌ FAILED TO LOAD</span>'" onload="this.parentElement.innerHTML+='<span class=success>✅ LOADED</span>'">
+    </div>
+    
+    <div class="test-item">
+        <h3>Notification Icon:</h3>
+        <img src="/Light-Icon/Iconly/Light-Outline/Notification.svg" alt="Notification" onerror="this.parentElement.innerHTML+='<span class=error>❌ FAILED TO LOAD</span>'" onload="this.parentElement.innerHTML+='<span class=success>✅ LOADED</span>'">
+    </div>
+    
+    <hr>
+    <p><strong>If all show ✅ LOADED, then files are accessible.</strong></p>
+    <p><strong>If you see ❌ FAILED, then there's a server issue.</strong></p>
+    <p><a href="/">Go back to Dashboard</a></p>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Notifications Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        .notification {
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #4CAF50;
+            background: #f1f8f4;
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .notification-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .notification-message {
+            color: #666;
+        }
+        .notification-time {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+        .success { border-left-color: #4CAF50; background: #f1f8f4; }
+        .info { border-left-color: #2196F3; background: #e3f2fd; }
+        .warning { border-left-color: #FF9800; background: #fff3e0; }
+        .error { border-left-color: #f44336; background: #ffebee; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔔 Real-time Notifications Test</h1>
+        <p class="subtitle">Test the Socket.IO real-time notification system</p>
+        
+        <div>
+            <button onclick="sendTestNotification()">Send Test Notification</button>
+            <button onclick="clearNotifications()">Clear</button>
+        </div>
+        
+        <div class="status" id="status">
+            Connecting to server...
+        </div>
+        
+        <div id="notifications"></div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        const socket = io('http://localhost:5001');
+        const statusEl = document.getElementById('status');
+        const notificationsEl = document.getElementById('notifications');
+        
+        socket.on('connect', () => {
+            statusEl.textContent = '✅ Connected to server! Listening for notifications...';
+            statusEl.style.background = '#d4edda';
+            statusEl.style.color = '#155724';
+            socket.emit('join', 7);
+        });
+        
+        socket.on('disconnect', () => {
+            statusEl.textContent = '❌ Disconnected from server';
+            statusEl.style.background = '#f8d7da';
+            statusEl.style.color = '#721c24';
+        });
+        
+        socket.on('new_notification', (notification) => {
+            console.log('Received notification:', notification);
+            displayNotification(notification);
+        });
+        
+        function displayNotification(notification) {
+            const div = document.createElement('div');
+            div.className = `notification ${notification.type}`;
+            div.innerHTML = `
+                <div class="notification-title">${notification.title}</div>
+                <div class="notification-message">${notification.message}</div>
+                <div class="notification-time">${notification.time}</div>
+            `;
+            notificationsEl.insertBefore(div, notificationsEl.firstChild);
+        }
+        
+        async function sendTestNotification() {
+            const notifications = [
+                { title: 'New User Registration', message: 'A new user just signed up for Premium plan', type: 'success' },
+                { title: 'Payment Received', message: 'Payment of ₹3,500 received successfully', type: 'success' },
+                { title: 'Session Booking', message: 'New therapy session booked for tomorrow', type: 'info' },
+                { title: 'System Alert', message: 'Server maintenance will begin in 1 hour', type: 'warning' },
+                { title: 'Payment Failed', message: 'Payment processing failed - requires attention', type: 'error' }
+            ];
+            
+            const random = notifications[Math.floor(Math.random() * notifications.length)];
+            
+            try {
+                const response = await fetch('http://localhost:5001/api/notifications', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId: 7, ...random })
+                });
+                
+                if (response.ok) {
+                    console.log('Notification sent!');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        function clearNotifications() {
+            notificationsEl.innerHTML = '';
+        }
+    </script>
+</body>
+</html>
